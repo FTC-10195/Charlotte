@@ -10,12 +10,10 @@ public class FlyWheel {
     }
 
     States flyState = States.RESTING;
-    DcMotor flyMotorLeft;
-    DcMotor flyMotorRight; //Right dominant
+    DcMotor flyMotor; //Right dominant
 
     public void initiate(HardwareMap hardwareMap) {
-        flyMotorLeft = hardwareMap.dcMotor.get("flyL");
-        flyMotorRight = hardwareMap.dcMotor.get("flyR");
+        flyMotor = hardwareMap.dcMotor.get("fly");
     }
 
     public void setState(States state) {
@@ -29,10 +27,10 @@ public class FlyWheel {
     public void update() {
         switch (flyState) {
             case RESTING:
+                flyMotor.setPower(0);
                 break;
             case SPINNING:
-                flyMotorLeft.setPower(1);
-                flyMotorRight.setPower(-1);
+                flyMotor.setPower(1);
                 break;
         }
 
