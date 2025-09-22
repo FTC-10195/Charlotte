@@ -56,6 +56,12 @@ public class Turret {
     //Manually rotate
     public void rotate(double input){
         targetPos = targetPos + (input * manualRotateSensitiviy);
+        if (targetPos > 1){
+            targetPos = 1;
+        }
+        if (targetPos < 0){
+            targetPos = 0;
+        }
     }
     public void update(){
         switch (currentState){
