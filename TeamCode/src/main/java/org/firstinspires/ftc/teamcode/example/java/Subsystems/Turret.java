@@ -4,6 +4,8 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @Config
 public class Turret {
     public enum States{
@@ -22,7 +24,7 @@ public class Turret {
     public static long resetTime = 300;
     public static long trackTime = 300;
     public static double restPosition = 0.5;
-    public static double targetPos = 0.5;
+    public double targetPos = 0.5;
     public static double kP = .005; //Rotate sensitivity FOR CV
     public static double manualRotateSensitiviy = .005; //Rotate sensitivity FOR MANUAL
     public void initiate(HardwareMap hardwareMap){
@@ -81,5 +83,9 @@ public class Turret {
                 turret.setPosition(targetPos);
                 break;
         }
+    }
+    public void status (Telemetry telemetry){
+        telemetry.addData("Turret",currentState);
+        telemetry.addData("turretTargetPos",targetPos);
     }
 }

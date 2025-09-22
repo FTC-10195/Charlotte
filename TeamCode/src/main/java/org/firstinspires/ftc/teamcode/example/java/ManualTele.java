@@ -40,18 +40,6 @@ public enum States{
             boolean LT = (gamepad1.left_trigger >= .1 && previousGamepad1.left_trigger < .1);
             previousGamepad1.copy(gamepad1);
             States newState = state;
-            if (RT){
-                switch (state){
-                    case RESTING:
-                        newState = States.TRACKING;
-                        flyWheel.spin();
-                        break;
-                    case READY:
-                        newState = States.FIRING;
-                        trigger.shoot();
-                        break;
-                }
-            }
 
             switch (state){
                 case RESTING:
@@ -77,6 +65,19 @@ public enum States{
                 turret.reset();
                 newState = States.RESTING;
             }
+            if (RT){
+                switch (state){
+                    case RESTING:
+                        flyWheel.spin();
+                        newState = States.TRACKING;
+                        break;
+                    case READY:
+                        newState = States.FIRING;
+                        trigger.shoot();
+                        break;
+                }
+            }
+
             state = newState;
             //Manual controls for turret rotate and flywheel spin
             if (gamepad1.dpad_down){
@@ -89,7 +90,7 @@ public enum States{
             if (gamepad1.left_bumper){
                 turret.rotate(-1);
             }
-            if (gamepad1.left_bumper){
+            if (gamepad1.right_bumper){
                 turret.rotate(1);
             }
 
@@ -97,6 +98,9 @@ public enum States{
             trigger.update();
             turret.update();
             sequence.status(telemetry);
+            turret.status(telemetry);
+            flyWheel.status(telemetry);
+            telemetry.addData("State",state);
             telemetry.update();
         }
     }

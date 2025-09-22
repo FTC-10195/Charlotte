@@ -14,7 +14,7 @@ public class Trigger {
 
     TriggerStates triggerState = TriggerStates.RESTING;
     Servo trigger;
-    Timer timer = new Timer();
+    Timer timer;
     public static double triggerResting = 0.5;
     public static double triggerShooting = 0.7;
     public static long shootTime = 200;
@@ -22,6 +22,7 @@ public class Trigger {
 
     public void initiate(HardwareMap hardwareMap) {
         trigger = hardwareMap.servo.get("trig");
+        timer = new Timer();
     }
 
     public void shoot() {
@@ -36,6 +37,7 @@ public class Trigger {
         switch (triggerState) {
             case RESTING:
                 readyToFire = true;
+                break;
             case RETURNING:
                 readyToFire = false;
                 trigger.setPosition(triggerResting);
@@ -50,6 +52,6 @@ public class Trigger {
         } else if (timer.timePassed() > (shootTime * 2)) {
             triggerState = TriggerStates.RESTING;
         }
-
     }
+
 }
