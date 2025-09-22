@@ -14,10 +14,11 @@ public class Trigger {
 
     TriggerStates triggerState = TriggerStates.RESTING;
     Servo trigger;
+    Timer timer = new Timer();
     public static double triggerResting = 0.5;
     public static double triggerShooting = 0.7;
-    public static double shootTime = 200;
-    double timeSnapshot = System.currentTimeMillis();
+    public static long shootTime = 200;
+    public boolean readyToFire = true;
 
     public void initiate(HardwareMap hardwareMap) {
         trigger = hardwareMap.servo.get("trig");
@@ -25,26 +26,28 @@ public class Trigger {
 
     public void shoot() {
         if (triggerState == TriggerStates.RESTING) {
-            timeSnapshot = System.currentTimeMillis();
+            timer.setWait(shootTime);
             triggerState = TriggerStates.SHOOTING;
         }
 
     }
 
     public void update() {
-
         switch (triggerState) {
             case RESTING:
+                readyToFire = true;
             case RETURNING:
+                readyToFire = false;
                 trigger.setPosition(triggerResting);
                 break;
             case SHOOTING:
+                readyToFire = false;
                 trigger.setPosition(triggerShooting);
                 break;
         }
-        if (System.currentTimeMillis() - timeSnapshot > shootTime && System.currentTimeMillis() - timeSnapshot < (2 * shootTime)) {
+        if (timer.isWaitComplete() && timer.timePassed() < (2 * shootTime)) {
             triggerState = TriggerStates.RETURNING;
-        } else if (System.currentTimeMillis() - timeSnapshot > (shootTime * 2)) {
+        } else if (timer.timePassed() > (shootTime * 2)) {
             triggerState = TriggerStates.RESTING;
         }
 
