@@ -26,7 +26,7 @@ public class Turret {
     public static double restPosition = 0.5;
     public double targetPos = 0.5;
     public static double kP = .005; //Rotate sensitivity FOR CV
-    public static double manualRotateSensitiviy = .005; //Rotate sensitivity FOR MANUAL
+    public static double manualRotateSensitiviy = -.001; //Rotate sensitivity FOR MANUAL
     public void initiate(HardwareMap hardwareMap){
         turret = hardwareMap.servo.get("turret");
     }

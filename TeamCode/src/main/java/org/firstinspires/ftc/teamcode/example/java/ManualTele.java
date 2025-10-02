@@ -52,7 +52,7 @@ public enum States{
                     }
                     break;
                 case READY:
-                    gamepad1.rumble(100);
+                   gamepad1.rumble(50);
                     break;
                 case FIRING:
                     if (trigger.readyToFire){
@@ -87,12 +87,7 @@ public enum States{
                 flyWheel.modifyPower(1);
             }
 
-            if (gamepad1.left_bumper){
-                turret.rotate(-1);
-            }
-            if (gamepad1.right_bumper){
-                turret.rotate(1);
-            }
+            turret.rotate(gamepad1.left_stick_x);
 
             flyWheel.update();
             trigger.update();

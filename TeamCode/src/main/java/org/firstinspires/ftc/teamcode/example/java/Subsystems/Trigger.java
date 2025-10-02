@@ -17,7 +17,7 @@ public class Trigger {
     Timer timer;
     public static double triggerResting = 0.5;
     public static double triggerShooting = 0.7;
-    public static long shootTime = 200;
+    public static long shootTime = 280;
     public boolean readyToFire = true;
 
     public void initiate(HardwareMap hardwareMap) {
