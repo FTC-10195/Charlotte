@@ -28,6 +28,7 @@ public class FlyWheel {
     public void initiate(HardwareMap hardwareMap) {
         flyMotor = hardwareMap.dcMotor.get("fly");
         flyMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        flyMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
 
@@ -62,6 +63,7 @@ public class FlyWheel {
     PIDFController pidfController = new PIDFController(kP,kI,kD);
     double velocity = 0;
     public void update() {
+        flyMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         pidfController.setKP(kP);
         pidfController.setKI(kI);
         pidfController.setKD(kD);
@@ -87,6 +89,8 @@ public class FlyWheel {
             power = Math.signum(power) * maxPower;
         }
         flyMotor.setPower(power);
+        previousPosition = flyMotor.getCurrentPosition();
+        previousTime = System.currentTimeMillis();
 
     }
     public void status(Telemetry telemetry){

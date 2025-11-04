@@ -80,12 +80,6 @@ public enum States{
 
             state = newState;
             //Manual controls for turret rotate and flywheel spin
-            if (gamepad1.dpad_down){
-                flyWheel.modifyPower(-1);
-            }
-            if (gamepad1.dpad_up){
-                flyWheel.modifyPower(1);
-            }
 
             turret.rotate(gamepad1.left_stick_x);
 
@@ -95,6 +89,7 @@ public enum States{
             sequence.status(telemetry);
             turret.status(telemetry);
             flyWheel.status(telemetry);
+            trigger.status(telemetry);
             telemetry.addData("State",state);
             telemetry.update();
         }
